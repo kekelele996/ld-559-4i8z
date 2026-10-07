@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { usePetDetail, usePetInsurance, usePetMedical, usePetVaccines } from '../hooks/usePets';
 import { PetAvatar } from '../components/common/PetAvatar';
 import { VaccineCalendar } from '../components/common/VaccineCalendar';
+import { VaccineScheduleRule } from '../components/common/VaccineScheduleRule';
+import { PendingVaccineList } from '../components/vaccine/PendingVaccineList';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { enumLabels } from '../constants/enums';
 import { formatCurrency, formatDate } from '../utils/format';
@@ -46,7 +48,17 @@ export default function PetDetail() {
             label: '就诊记录',
             children: <Timeline items={medical.map((record) => ({ children: `${formatDate(record.visitDate)} ${enumLabels[record.type]}：${record.diagnosis}` }))} />,
           },
-          { key: 'vaccines', label: '疫苗日历', children: <VaccineCalendar records={vaccines} /> },
+          {
+            key: 'vaccines',
+            label: '疫苗日历',
+            children: (
+              <Space direction="vertical" size={16} style={{ width: '100%' }}>
+                <VaccineScheduleRule />
+                <VaccineCalendar records={vaccines} />
+                <PendingVaccineList records={vaccines} />
+              </Space>
+            ),
+          },
           {
             key: 'insurance',
             label: '关联保单',

@@ -4,7 +4,7 @@ import { VaccineStatus } from '../../constants/enums';
 export class CreateVaccineDto {
   @IsString() petId!: string;
   @IsString() vaccineName!: string;
-  @IsString() batchNo!: string;
+  @IsOptional() @IsString() batchNo?: string;
   @IsOptional() @IsDateString() administeredDate?: string;
   @IsDateString() nextDueDate!: string;
   @IsString() vetId!: string;
@@ -12,3 +12,8 @@ export class CreateVaccineDto {
 }
 
 export class UpdateVaccineDto extends CreateVaccineDto {}
+
+export class CompleteVaccineDto {
+  /** 本次实际接种日期，不传则取当前时间 */
+  @IsOptional() @IsDateString() administeredDate?: string;
+}
