@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { UserRole } from '../../constants/enums';
+import { UserRole, VaccineStatus } from '../../constants/enums';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
@@ -17,6 +17,16 @@ export class VaccineRepository {
 
   create(data: Prisma.VaccineRecordUncheckedCreateInput) {
     return this.prisma.vaccineRecord.create({ data });
+  }
+
+  findById(id: string) {
+    return this.prisma.vaccineRecord.findUnique({ where: { id } });
+  }
+
+  findOpenPlan(petId: string, vaccineName: string) {
+    return this.prisma.vaccineRecord.findFirst({
+      where: { petId, vaccineName, status: { in: [VaccineStatus.PENDING, VaccineStatus.OVERDUE] } },
+    });
   }
 
   update(id: string, data: Prisma.VaccineRecordUncheckedUpdateInput) {

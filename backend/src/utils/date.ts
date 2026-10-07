@@ -3,3 +3,9 @@ export function addDays(date: Date, days: number) {
   next.setDate(next.getDate() + days);
   return next;
 }
+
+export function addMonths(date: Date, months: number) {
+  const next = new Date(date);
+  next.setMonth(next.getMonth() + months);
+  return next;
+}
